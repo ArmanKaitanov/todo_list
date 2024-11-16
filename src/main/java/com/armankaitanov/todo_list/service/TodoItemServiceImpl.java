@@ -61,7 +61,8 @@ public class TodoItemServiceImpl implements TodoItemService {
     @Override
     @Transactional
     public void deleteTodoItem(UUID id) {
-        todoItemRepository.findById(id).ifPresent(todoItemRepository::delete);
+        TodoItem todoItemToDelete = getTodoItemById(id);
+        todoItemRepository.delete(todoItemToDelete);
     }
 
     private void updateTodoItemFields(TodoItem todoItemToUpdate, TodoItem updatedTodoItem) {
@@ -72,6 +73,4 @@ public class TodoItemServiceImpl implements TodoItemService {
             todoItemToUpdate.setDescription(updatedTodoItem.getDescription());
         }
     }
-
-
 }

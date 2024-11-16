@@ -31,19 +31,16 @@ public class UserController {
 
     private final UserMapper userMapper;
 
-    // Endpoint to create or update a user
     @PostMapping
     public ResponseEntity<UUID> createUser(@Valid @RequestBody RegisterUserRequestDto dto) {
         return new ResponseEntity<>(userService.saveUser(dto), HttpStatus.CREATED);
     }
 
-    // Endpoint to get a user by ID
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserById(@PathVariable UUID id) {
         return ResponseEntity.ok(userMapper.toUserResponseDto(userService.getUserById(id)));
     }
 
-    // Endpoint to get all users
     @GetMapping
     public ResponseEntity<List<UserResponseDto>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers().stream()
@@ -51,7 +48,6 @@ public class UserController {
                 .toList());
     }
 
-    // Endpoint to delete a user
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
@@ -59,7 +55,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    // Endpoint to update a user by ID
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @RequestBody User updatedUser) {
         return ResponseEntity.ok(userMapper.toUserResponseDto(userService.updateUser(id, updatedUser)));

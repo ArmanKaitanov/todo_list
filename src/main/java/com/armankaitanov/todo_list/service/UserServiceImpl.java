@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User updateUser(UUID id, User updatedUser) {
-        User userToUpdate = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(String.format("User with id %s not found", id)));
+        User userToUpdate = getUserById(id);
         updateUserFields(userToUpdate, updatedUser);
 
         return userToUpdate;
@@ -75,14 +75,12 @@ public class UserServiceImpl implements UserService {
         if(updatedUser.getEmail() != null) {
             userToUpdate.setEmail(updatedUser.getEmail());
         }
-        if(updatedUser.getPassword() != null) {
-            userToUpdate.setPassword(updatedUser.getPassword());
-        }
     }
 
     @Override
     @Transactional
     public void deleteUser(UUID id) {
-        userRepository.findById(id).ifPresent(userRepository::delete);
+        User userToDelete = getUserById(id);
+        userRepository.delete(userToDelete);
     }
 }
